@@ -1,0 +1,1 @@
+Solving Google HashCode2014 with knowledge from INF580 ! 
