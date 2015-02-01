@@ -1,8 +1,11 @@
 import ast
 
+input_filename = 'solution/y_8T_time.txt'
+output_filename = 'sub_8T_time.txt'
+
 E={} # oriented edges, with count: (u,v) --> k
 somme = 0
-with open('y_8T-4k.txt','r') as f:
+with open(input_filename,'r') as f:
     for line in f:
         u,v,k = map(int, line.split() )
         if k>0:
@@ -56,14 +59,14 @@ while True:
         if start == None:
             print 'Error!'
             break
-        print 'starting at vertex', start, '...',
+        print '\r re-starting at vertex', start, '...',
         idx = path.index(start)
         path1 = path[:idx]
         path2 = path[idx+1:]
 
 print '\nThe solution contains %d vertices, and the path found contains %d vertices.'% ( somme, len(path) )
 
-with open('sub_8T-4k.txt', 'w') as f:
+with open(output_filename, 'w') as f:
     f.write('1\n%d\n'%len(path))
     for v in path:
         f.write(str(v)+'\n')

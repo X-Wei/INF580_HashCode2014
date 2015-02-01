@@ -5,6 +5,8 @@ solve;
 
 display Longeur;
 
+printf "longeur = %d\n", sum{ (u,v) in E } ( x[u,v]*l[u,v] );
+
 printf "y[u,v]=\n";
 for {(u,v) in E}{
     if y[u,v]!=0 then printf "%d %d %d\n", u, v, y[u,v];

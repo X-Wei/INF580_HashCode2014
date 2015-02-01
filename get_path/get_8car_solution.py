@@ -1,5 +1,8 @@
 import cPickle as pk
 
+solution_filename = 'sub_8T_time.txt'
+sub_filename = 'sub_8cars_8T_time.txt'
+
 fi = open('paris_54000.txt','r')
 N, M, T, N_car, start = map(int, fi.readline().split() ) # N= nb vertices, M = nb streets
 
@@ -25,14 +28,16 @@ print '1. reading data into graph `G`...',
 for i in xrange(N):
     x,y = readtab(fi, float)
     G[i] = Vertex(i, x, y)
-
-# reading data into graph G
 for i in xrange(M):
     u,v,d,t,l = readtab(fi, int)
     G[u].adj_list[v] = (t,l)
     if d==2: G[v].adj_list[u] = (t,l)
-print 'done!'
 
+pk.dump( G, open('Graph.dat','w') ) 
+
+
+#~ G = pk.load( open('Graph.dat','w') ) 
+print 'done!'
 
 
 ######################################################################## 
@@ -61,7 +66,6 @@ print '2. doing a Dijkstra for graph (source = start)...'
 #~ # now that we have the informations stored in `dist` and `prev`
 #~ pk.dump( (dist,prev), open('Dijkstra.dat','w') ) 
 
-
 (dist,prev) = pk.load(open('Dijkstra.dat','r'))
 print 'done!'
 
@@ -74,13 +78,11 @@ def get_shortest_path(dst):
         dst = prev[dst]
     return shortes_path
     
-#~ print get_shortest_path(100)
-
 
 
 ######################################################################### 
 print '3. reading the solution with 1 car and 8T...'
-fi = open('sub_8T-4k.txt', 'r')
+fi = open(solution_filename, 'r')
 fi.readline() # 1
 fi.readline() # 30917
 fi.readline() # 4516
@@ -125,7 +127,7 @@ for i in range(N_car):
 
 ######################################################################## 
 print '4. outputting to submission file...',
-with open('sub_8cars_8T-4k.txt', 'w') as fo:
+with open(sub_filename, 'w') as fo:
     fo.write('%d\n' % N_car)
     for i in range(N_car):
         path = all_paths[i]
