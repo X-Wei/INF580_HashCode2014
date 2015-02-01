@@ -1,7 +1,7 @@
 import ast
 
-input_filename = 'solution/y_8T_time.txt'
-output_filename = 'sub_8T_time.txt'
+input_filename = 'solution/y_8T_time-reg2.txt'
+output_filename = 'path_8T_time-reg2.txt'
 
 E={} # oriented edges, with count: (u,v) --> k
 somme = 0
@@ -64,7 +64,7 @@ while True:
         path1 = path[:idx]
         path2 = path[idx+1:]
 
-print '\nThe solution contains %d vertices, and the path found contains %d vertices.'% ( somme, len(path) )
+print '\nThe solution contains %d vertices, and the path found contains %d vertices.'% ( somme+1, len(path) )
 
 with open(output_filename, 'w') as f:
     f.write('1\n%d\n'%len(path))

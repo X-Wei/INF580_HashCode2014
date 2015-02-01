@@ -21,7 +21,7 @@ class Instance:
         fi = open(filename, 'r')
         self.nb_noeuds, nb_rues, self.temps_lim, self.nb_veh, self.start = readtab(fi, int)
         #~ self.nb_veh = 1
-        #~ self.temps_lim*=8;
+        self.temps_lim*=8;
         self.coor = [readtab(fi, float) for _ in range(self.nb_noeuds)]
         self.graph = [[] for u in range(self.nb_noeuds)]
         # pour chaque arc a:

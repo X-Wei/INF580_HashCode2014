@@ -1,9 +1,9 @@
 import cPickle as pk
 
-solution_filename = 'sub_8T_time.txt'
-sub_filename = 'sub_8cars_8T_time.txt'
+solution_filename = 'path_8T_time-reg2.txt'
+sub_filename = 'sub_8T_time-reg2.txt'
 
-fi = open('paris_54000.txt','r')
+fi = open('solution/paris_54000.txt','r')
 N, M, T, N_car, start = map(int, fi.readline().split() ) # N= nb vertices, M = nb streets
 
 def readtab(fi, ty): return tuple(map(ty, fi.readline().split()))
@@ -89,7 +89,7 @@ fi.readline() # 4516
 
 def append_path(t_left, partial_path):
     '''
-    given the time left `t_left` and the partial path, add path until time up by reading from the `fi`
+    given the time left `t_left` and the partial path, add path until time up by reading from the `fi` (i.e. following the solution by NEOS)
     returns the next vertex to go (for next car) and the time left
     '''
     current = partial_path[-1] if len(partial_path)>0 else start
@@ -102,6 +102,7 @@ def append_path(t_left, partial_path):
         if t_left < t: # if cannot go to nxt --> return 
             #~ print 'time left =%d' % t_left
             return nxt, t_left
+            #~ return current, t_left 
         partial_path.append(nxt)
         t_left -= t
         current = nxt
@@ -109,18 +110,21 @@ def append_path(t_left, partial_path):
 
 
 all_paths = [] # contain 8 lists, each indicating a path for each car
-dep_i = start # starting point for car i
+start_i = start # starting point for car i
 for i in range(N_car):
     print 'car %d...' % (i+1)
     path = []
     t = T
-    # go from google to dep_i
-    path = get_shortest_path(dep_i)
-    t -= dist[dep_i] # don't forget dist[v] is the shortest(time) to get from google to v ! 
+    # 1. go from google to dep_i
+    path = get_shortest_path(start_i)
+    if start_i != start: 
+        path.append(next_i)#remember: the edge (current,nxt) is not yet done in last call for `append_path` !!!
+    t -= dist[start_i] # don't forget dist[v] is the shortest(time) to get from google to v ! 
     print 'time left for doing the solution is: %d, ' % t, 
-    # take the path provided by "sub_8T.txt"
-    dep_i, t = append_path(t, path) # departure point for next car 
-    print 'next departure is: %d' % dep_i
+    # 2. take the path provided by "sub_8T.txt"
+    next_i, t = append_path(t, path) # `next_i` is the next vertex that the next car should visit
+    start_i = path[-1] # next car will start by the end of  last path
+    print 'next departure is: %d' % start_i
     all_paths.append(path)    
     print 'Done! Time left is %d'%t
 
