@@ -1,3 +1,4 @@
+option gurobi_options 'mipgap 1e-10';
 param T,  >= 0;
 
 param N, integer, >=0;
