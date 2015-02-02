@@ -14,7 +14,7 @@ var f{ v in V},  >= 0, <=1;
 var x{(u,v) in E},binary;
 var y{(u,v) in E}, integer, >=0, <=10;
 
-maximize Longeur: sum{ (u,v) in E } ( x[u,v]*l[u,v] ) + 0.00001*(T-sum{ (u,v) in E } y[u,v]*t[u,v]);
+maximize Longeur: sum{ (u,v) in E } ( x[u,v]*l[u,v] ) + 0.000001*(T-sum{ (u,v) in E } y[u,v]*t[u,v]);
 
 s.t. C1{ (u,v) in E }: x[u,v] <= y[u,v];
 

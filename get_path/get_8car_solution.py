@@ -1,7 +1,7 @@
 import cPickle as pk
 
 solution_filename = 'path_8T_time-reg2.txt'
-sub_filename = 'sub_8T_time-reg2.txt'
+sub_filename = 'sub_8T_time-reg2_add_lastedge.txt'
 
 fi = open('solution/paris_54000.txt','r')
 N, M, T, N_car, start = map(int, fi.readline().split() ) # N= nb vertices, M = nb streets
@@ -36,7 +36,7 @@ for i in xrange(M):
 pk.dump( G, open('Graph.dat','w') ) 
 
 
-#~ G = pk.load( open('Graph.dat','w') ) 
+#~ G = pk.load( open('Graph.dat','r') ) 
 print 'done!'
 
 
@@ -128,6 +128,8 @@ for i in range(N_car):
     all_paths.append(path)    
     print 'Done! Time left is %d'%t
 
+path_to_last_edge = pk.load(open('path_to_lastedge.dat','r'))
+all_paths[-1].extend(path_to_last_edge[1:])
 
 ######################################################################## 
 print '4. outputting to submission file...',
