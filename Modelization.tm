@@ -5,7 +5,8 @@
 <\body>
   <doc-data|<doc-title|Resolution of Google
   <em|HashCode2014><with|font-shape|italic|> by Integer Linear
-  Programming>|<doc-author|<author-data|<author-name|EO&XW>|<\author-affiliation>
+  Programming>|<doc-author|<author-data|<author-name|EO &
+  XW>|<\author-affiliation>
     2015-02-02
   </author-affiliation>>>>
 
@@ -155,7 +156,7 @@
   <math|x,y,f>), we need to process this solution to get a
   <with|font-shape|italic|path> for each car.
 
-  <subsection|Turn the <math|y<rsub|e>> into a path>
+  <subsection|Turn the <math|y<rsub|e>> into a big path>
 
   \;
 
@@ -169,7 +170,7 @@
       <item>Follow a random path from the start to the end, destroying every
       edge we use right after using it.
 
-      <item>If this path took all the edges: \ return this path;
+      <item>If this path contains all the edges: \ return this path;
 
       else: \ look for an intersection point <math|v<rsub|>> between our path
       and the remaining edges.\ 
@@ -322,7 +323,8 @@
     <with|font-series|bold|<math|\<b-P\><rsub|0>>> to 8 paths.\ 
 
     <with|font-shape|italic|get_path.py>: \ convert the LP solution (the
-    {<math|y<rsub|e>>}) to the big path <with|font-series|bold|<math|\<b-P\><rsub|0>>>.
+    {<math|y<rsub|e>>}) to the big path <with|font-series|bold|<math|\<b-P\><rsub|0>>>
+    (using algorithm 1).
 
     <with|font-shape|italic|get_8car_solution.py>: convert
     \ <with|font-series|bold|<math|\<b-P\><rsub|0>>> to 8 paths, which is a
@@ -334,7 +336,8 @@
     The <with|font-shape|italic|take_lastedge> folder: contains code for
     adding up the last unvisited edge.
 
-    \;
+    <item>The file <with|font-shape|italic|final_solution.txt> is our final
+    solution for submission.
   </itemize>
 
   \;
@@ -369,7 +372,7 @@
 <\auxiliary>
   <\collection>
     <\associate|figure>
-      <tuple|normal|The paths of our solution|<pageref|auto-12>>
+      <tuple|normal|The paths of 8 cars in our solution|<pageref|auto-12>>
     </associate>
     <\associate|toc>
       <vspace*|1fn><with|font-series|<quote|bold>|math-font-series|<quote|bold>|1<space|2spc>Problem
@@ -397,7 +400,7 @@
       <no-break><pageref|auto-6><vspace|0.5fn>
 
       <with|par-left|<quote|1.5fn>|2.1<space|2spc>Turn the
-      <with|mode|<quote|math>|y<rsub|e>> into a path
+      <with|mode|<quote|math>|y<rsub|e>> into a big path
       <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
       <no-break><pageref|auto-7>>
 
@@ -418,8 +421,8 @@
       street <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
       <no-break><pageref|auto-11>>
 
-      <vspace*|1fn><with|font-series|<quote|bold>|math-font-series|<quote|bold>|4<space|2spc>Code
-      and file details> <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
+      <vspace*|1fn><with|font-series|<quote|bold>|math-font-series|<quote|bold>|4<space|2spc>File
+      details> <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
       <no-break><pageref|auto-13><vspace|0.5fn>
     </associate>
   </collection>
