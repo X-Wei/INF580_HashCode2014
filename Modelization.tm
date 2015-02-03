@@ -12,7 +12,7 @@
 
   <section|Problem fomulation>
 
-  <subsection|Input data>
+  <subsection|Parameters given>
 
   \;
 
