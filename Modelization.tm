@@ -3,6 +3,8 @@
 <style|article>
 
 <\body>
+  \;
+
   <doc-data|<doc-title|Resolution of Google
   <em|HashCode2014><with|font-shape|italic|> by Integer Linear
   Programming>|<doc-author|<author-data|<author-name|EO &
@@ -42,7 +44,7 @@
 
   <\itemize-minus>
     <item><math|\<forall\> v<rsub|>\<in\> V>, define
-    <math|\<b-f\><rsub|\<b-e\>>\<in\><around*|{|0,1|}>\<nocomma\>>,
+    <math|\<b-f\><rsub|\<b-v\>>\<in\><around*|{|0,1|}>\<nocomma\>>,
     indicating if <math|v> is the last vertex that the car stops;
 
     <item><math|\<forall\> e<rsub|>\<in\>E>, define
@@ -71,8 +73,8 @@
     \<leqslant\> T>|<cell|<around*|(|C3|)>>>|<row|<cell|>|<cell|>>|<row|<cell|\<forall\>
     v<rsub|i>\<in\>V\<nocomma\>,v<rsub|i>\<neq\>v<rsub|start>\<nocomma\>\<nocomma\>,<space|1em><below|<big|sum>|<stack|<tformat|<table|<row|<cell|e\<in\>E<rsub|>,>>|<row|<cell|e=<around*|(|u,v<rsub|i>|)>>>>>>>y<rsub|e>
     = <below|<big|sum>|<stack|<tformat|<table|<row|<cell|e<rprime|'>\<in\>E<rsub|>,>>|<row|<cell|e<rprime|'>=<around*|(|v<rsub|i>,u|)>>>>>>>y<rsub|e<rprime|'>>
-    +f<rsub|v<rsub|i>>>|<cell|<around*|(|C4|)>>>|<row|<cell|>|<cell|>>|<row|<cell|f<rsub|v<rsub|start>>+<below|<big|sum>|<stack|<tformat|<table|<row|<cell|e\<in\>E<rsub|>,>>|<row|<cell|e=<around*|(|v<rsub|start>,v<rsub|>|)>>>>>>>y<rsub|e>-<below|<big|sum>|<stack|<tformat|<table|<row|<cell|e<rprime|'>\<in\>E<rsub|>,>>|<row|<cell|e<rprime|'>=<around*|(|v,v<rsub|start><rsub|>|)>>>>>>>y<rsub|e<rprime|'>>
-    = \<space\>1>|<cell|<around*|(|C4bis|)>>>|<row|<cell|>|<cell|>>|<row|<cell|<below|<big|sum>|v\<in\>V>f<rsub|v>=1>|<cell|<around*|(|C5|)>>>>>>
+    +f<rsub|v<rsub|i>>>|<cell|<around*|(|C4|)>>>|<row|<cell|>|<cell|>>|<row|<cell|<below|<big|sum>|<stack|<tformat|<table|<row|<cell|e\<in\>E<rsub|>,>>|<row|<cell|e=<around*|(|v<rsub|start>,v<rsub|>|)>>>>>>>y<rsub|e>=<below|<big|sum>|<stack|<tformat|<table|<row|<cell|e<rprime|'>\<in\>E<rsub|>,>>|<row|<cell|e<rprime|'>=<around*|(|v,v<rsub|start><rsub|>|)>>>>>>>y<rsub|e<rprime|'>>
+    +f<rsub|v<rsub|start>>\<noplus\>+\<space\>1>|<cell|<around*|(|C4bis|)>>>|<row|<cell|>|<cell|>>|<row|<cell|<below|<big|sum>|v\<in\>V>f<rsub|v>=1>|<cell|<around*|(|C5|)>>>>>>
     |\<nobracket\>>
   </equation*>
 
@@ -304,7 +306,7 @@
 
   <\equation*>
     <below|Minimize|<stack|<tformat|<table|<row|<cell|y<rsub|e>\<in\>\<bbb-N\><rsub|+>>>|<row|<cell|f<rsub|v>\<in\><around*|{|0,1|}>>>>>>>\<nospace\>
-    <below|<big|sum>|e\<in\>E>y<rsub|e>l<rsub|e> , <space|1em>s.t.
+    <below|<big|sum>|e\<in\>E>y<rsub|e>t<rsub|e> , <space|1em>s.t.
     <around*|{|<tabular|<tformat|<table|<row|\<forall\>e=<around*|(|u,v|)>\<in\>E,<space|1em>
     y<rsub|<around*|(|u,v|)>>+y<rsub|<around*|(|v,u|)>>\<geqslant\>1|<cell|<around*|(|C1|)>>>|<row|<cell|>|<cell|>>|<row|<cell|<below|<big|sum>|e\<in\>E<rsub|>>y<rsub|e>t<rsub|e>
     \<leqslant\> T>|<cell|<around*|(|C2|)>>>|<row|<cell|>|<cell|>>|<row|<cell|\<forall\>
@@ -441,7 +443,7 @@
       fomulation> <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
       <no-break><pageref|auto-1><vspace|0.5fn>
 
-      <with|par-left|<quote|1.5fn>|1.1<space|2spc>Input data
+      <with|par-left|<quote|1.5fn>|1.1<space|2spc>Parameters given
       <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
       <no-break><pageref|auto-2>>
 
