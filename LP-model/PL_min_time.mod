@@ -1,4 +1,5 @@
-param T,  >= 0;
+option gurobi_options 'mipgap 1e-10';
+param T,  >= 0, <= 432000;
 
 param N, integer, >=0;
 
@@ -11,14 +12,14 @@ param t{(u,v) in E}, > 0;
 param l{(u,v) in E}, > 0;
 
 var f{ v in V},  >= 0, <=1;
-var x{(u,v) in E},binary;
-var y{(u,v) in E}, integer, >=0, <=10;
+#var x{(u,v) in E},binary;
+var y{(u,v) in E}, integer, >=0;
 
-maximize Longeur: sum{ (u,v) in E } ( x[u,v]*l[u,v] ) + 0.000001*(T-sum{ (u,v) in E } y[u,v]*t[u,v]);
+minimize Temps: sum{ (u,v) in E } y[u,v]*t[u,v];
 
-s.t. C1{ (u,v) in E }: x[u,v] <= y[u,v];
+#s.t. C1{ (u,v) in E }: x[u,v] <= y[u,v];
 
-s.t. C1bis{ (u,v) in E }: x[u,v] + x[v,u] <= 1;
+s.t. C1bis{ (u,v) in E }: y[u,v] + y[v,u] >= 1;
 
 s.t. C2: sum{ (u,v) in E } y[u,v]*t[u,v] <= T;
 

@@ -42,16 +42,16 @@
 
   <\itemize-minus>
     <item><math|\<forall\> v<rsub|>\<in\> V>, define
-    <math|f<rsub|v>\<in\><around*|{|0,1|}>\<nocomma\>>, indicating if
-    <math|v> is the last vertex that the car stops;
+    <math|\<b-f\><rsub|\<b-e\>>\<in\><around*|{|0,1|}>\<nocomma\>>,
+    indicating if <math|v> is the last vertex that the car stops;
 
     <item><math|\<forall\> e<rsub|>\<in\>E>, define
-    <math|x<rsub|e>\<in\><around*|{|0,1|}>>, indicating if this road is
-    taken;
+    <math|\<b-x\><rsub|\<b-e\>>\<in\><around*|{|0,1|}>>, indicating if this
+    road is taken;
 
     <item><math|\<forall\> e\<in\> E>, define
-    <math|y<rsub|e>\<in\>\<bbb-N\><rsub|+>>, indicating the number of times
-    of passing this (oriented) edge.
+    <math|\<b-y\><rsub|\<b-e\>>\<in\>\<bbb-N\><rsub|+>>, indicating the
+    number of times of passing this (oriented) edge.
 
     \;
   </itemize-minus>
@@ -100,7 +100,7 @@
   \;
 
   <\itemize-dot>
-    <item>Explination of the constraints:\ 
+    <item>Explaination of the constraints:\ 
   </itemize-dot>
 
   <\itemize-minus>
@@ -114,8 +114,8 @@
   </itemize-minus>
 
   <\itemize-minus>
-    <item><math|<around*|(|C3|)>> says that our path can be finished under
-    the time limit <math|T>.
+    <item><math|<around*|(|C3|)>> says that our path should be finished
+    within the time limit <math|T>.
   </itemize-minus>
 
   <\itemize-minus>
@@ -268,27 +268,69 @@
   cars to go from <math|v<rsub|start>\<nocomma\>\<nocomma\>> to
   <math|v<rsub|next>\<nocomma\>\<nocomma\>>.\ 
 
-  <subsection|Adding the last unvisited street>
+  \;
+
+  After this improvement, our score is <with|font-shape|italic|1967437>,
+  which is only 7 meters from the total street length in Paris, whereas there
+  are still 2229 seconds left for the last car. Our solution from LP did not
+  include this last street of 7 meters because Gurobi will not stop
+  <with|font-shape|italic|exactly> at optimum, but at some point very close
+  to optimum.\ 
 
   \;
 
-  After the improvement of 3.1, our score is
-  <with|font-shape|italic|1967437>, which is only 7 meters from the total
-  street length in Paris, whereas there are still 2229 seconds left for the
-  last car. (Our solution from LP did not include this last street of 7
-  meters because Gurobi will not stop exactly at optimum, but at some point
-  very close to optimum. )
-
-  \;
-
-  So we manually find the last unvisited street (which is from vertex 10872
-  to vertex 2962), and performed a shortest path from the stopping point of
-  last car to vertex 10872, then visited this last street. Thus we have
+  So we can manually find the last unvisited street (which is from vertex
+  10872 to vertex 2962), and perform a shortest path from the stopping point
+  of last car to vertex 10872, then visited this last street. Thus we can
   visited <with|font-shape|italic|all> the streets in Paris with our 8 cars !
 
+  <subsection|Chang objective: minimize time used>
+
   \;
 
-  The result of our final solution is shown in figure 1.\ 
+  Now that we are sure that with <math|T=8 T<rsub|given>>, we
+  <with|font-shape|italic|can> visite all Paris, so we can change the model:
+  just make the origional objective (street length)
+  <with|font-shape|italic|as a constraint>, and this time minimize the
+  <with|font-shape|italic|time> used.\ 
+
+  \;
+
+  And as we are sure that all street can be visited, we no longer need the
+  variables <math|x<rsub|e>> (which is a indicater of whether the street
+  <math|e> is taken). So the new LP formulation is:\ 
+
+  \;
+
+  <\equation*>
+    <below|Minimize|<stack|<tformat|<table|<row|<cell|y<rsub|e>\<in\>\<bbb-N\><rsub|+>>>|<row|<cell|f<rsub|v>\<in\><around*|{|0,1|}>>>>>>>\<nospace\>
+    <below|<big|sum>|e\<in\>E>y<rsub|e>l<rsub|e> , <space|1em>s.t.
+    <around*|{|<tabular|<tformat|<table|<row|\<forall\>e=<around*|(|u,v|)>\<in\>E,<space|1em>
+    y<rsub|<around*|(|u,v|)>>+y<rsub|<around*|(|v,u|)>>\<geqslant\>1|<cell|<around*|(|C1|)>>>|<row|<cell|>|<cell|>>|<row|<cell|<below|<big|sum>|e\<in\>E<rsub|>>y<rsub|e>t<rsub|e>
+    \<leqslant\> T>|<cell|<around*|(|C2|)>>>|<row|<cell|>|<cell|>>|<row|<cell|\<forall\>
+    v<rsub|i>\<in\>V\<nocomma\>,v<rsub|i>\<neq\>v<rsub|start>\<nocomma\>\<nocomma\>,<space|1em><below|<big|sum>|<stack|<tformat|<table|<row|<cell|e\<in\>E<rsub|>,>>|<row|<cell|e=<around*|(|u,v<rsub|i>|)>>>>>>>y<rsub|e>
+    = <below|<big|sum>|<stack|<tformat|<table|<row|<cell|e<rprime|'>\<in\>E<rsub|>,>>|<row|<cell|e<rprime|'>=<around*|(|v<rsub|i>,u|)>>>>>>>y<rsub|e<rprime|'>>
+    +f<rsub|v<rsub|i>>>|<cell|<around*|(|C3|)>>>|<row|<cell|>|<cell|>>|<row|<cell|f<rsub|v<rsub|start>>+<below|<big|sum>|<stack|<tformat|<table|<row|<cell|e\<in\>E<rsub|>,>>|<row|<cell|e=<around*|(|v<rsub|start>,v<rsub|>|)>>>>>>>y<rsub|e>-<below|<big|sum>|<stack|<tformat|<table|<row|<cell|e<rprime|'>\<in\>E<rsub|>,>>|<row|<cell|e<rprime|'>=<around*|(|v,v<rsub|start><rsub|>|)>>>>>>>y<rsub|e<rprime|'>>
+    = \<space\>1>|<cell|<around*|(|C3bis|)>>>|<row|<cell|>|<cell|>>|<row|<cell|<below|<big|sum>|v\<in\>V>f<rsub|v>=1>|<cell|<around*|(|C4|)>>>>>>
+    |\<nobracket\>>
+  </equation*>
+
+  \;
+
+  Here we changed the objective, and the constraint (C1) means we impose that
+  all streets of Paris should be visited.\ 
+
+  \;
+
+  The solution of this LP problem is 418589 (the total time is
+  <math|8T<rsub|given>=>432000), which means that we not only have visited
+  all Paris, but also saved <with|font-shape|italic|a lot> of time. With this
+  improvement, the last car has <with|font-shape|italic|9596> seconds' time
+  left !
+
+  \;
+
+  The result of our solution is shown in figure 1.\ 
 
   \;
 
@@ -297,48 +339,68 @@
 
   \;
 
-  \ <section|File details>
+  \ <section|File descriptions>
 
   \;
 
-  The zip file contains 3 folders:\ 
+  Here is a bref description of the files:
 
-  <\itemize>
-    <item>The <with|font-shape|italic|LP-model> folder:
+  \;
 
-    \ Contains the LP models and the parameter data files.\ 
+  <\itemize-dot>
+    <item>The root folder
+  </itemize-dot>
 
-    <item>The <with|font-shape|italic|gene_mod> folder:\ 
+  \;
 
-    Contains code for generating the parameter data (<math|l<rsub|e> and
-    t<rsub|e>> in our model) for LP.
+  The root folder contains <with|font-shape|italic|final_solution.gpx> &
+  <with|font-shape|italic|final_solution.txt>: this is our final solution
+  (after the second improvement).
 
-    The file <with|font-shape|italic|gene_mod.py> will read the input file
-    and output the parameters.\ 
+  \;
 
-    <item>The <with|font-shape|italic|get_path> folder:
+  <\itemize-dot>
+    <item>The <with|font-shape|italic|LP_model> folder
+  </itemize-dot>
 
-    Contains code for converting LP results to the big path
-    <with|font-series|bold|<math|\<b-P\><rsub|0>>>, and convert
-    <with|font-series|bold|<math|\<b-P\><rsub|0>>> to 8 paths.\ 
+  \;
 
-    <with|font-shape|italic|get_path.py>: \ convert the LP solution (the
-    {<math|y<rsub|e>>}) to the big path <with|font-series|bold|<math|\<b-P\><rsub|0>>>
-    (using algorithm 1).
+  This folder contains the code for the LP formulation.\ 
 
-    <with|font-shape|italic|get_8car_solution.py>: convert
-    \ <with|font-series|bold|<math|\<b-P\><rsub|0>>> to 8 paths, which is a
-    document ready for submission.
+  <\itemize-minus>
+    <item><with|font-shape|italic|PL.mod>: this is our first model as
+    described at the beginning.
 
-    The <with|font-shape|italic|solution> subfolder: contains the LP
-    solutions and other files.\ 
+    <item><with|font-shape|italic|PL_time_reg.mod>: \ this is the model for
+    the first improvement.\ 
 
-    The <with|font-shape|italic|take_lastedge> folder: contains code for
-    adding up the last unvisited edge.
+    <item><with|font-shape|italic|PL_min_time.mod>: this is the model for the
+    second improvement.
 
-    <item>The file <with|font-shape|italic|final_solution.txt> is our final
-    solution for submission.
-  </itemize>
+    <item>subfolder <with|font-shape|italic|gen_mod>: contains code for
+    generating the parameters (<math|l<rsub|e> and t<rsub|e>>) in our model.\ 
+  </itemize-minus>
+
+  \;
+
+  <\itemize-dot>
+    <item>The <with|font-shape|italic|get_solution> folder
+  </itemize-dot>
+
+  <\itemize-minus>
+    <item><with|font-shape|italic|get_bigpath.py>: read the LP solution (the
+    {<math|y<rsub|e>>}), then convert it into the big path
+    <with|font-series|bold|<math|\<b-P\><rsub|0>>> using the algorithm 1.
+
+    <item><with|font-shape|italic|get_8car_solution.py>: code to convert the
+    big path <with|font-series|bold|<math|\<b-P\><rsub|0>>> into 8 paths,
+    outputs the file ready for submission.
+
+    <item>subfolder <with|font-shape|italic|data>: contains some LP solutions
+    and other files.
+  </itemize-minus>
+
+  \;
 
   \;
 
@@ -354,18 +416,18 @@
 <\references>
   <\collection>
     <associate|auto-1|<tuple|1|1>>
-    <associate|auto-10|<tuple|3.1|?>>
-    <associate|auto-11|<tuple|3.2|?>>
-    <associate|auto-12|<tuple|1|?>>
-    <associate|auto-13|<tuple|4|?>>
-    <associate|auto-2|<tuple|1.1|?>>
-    <associate|auto-3|<tuple|1.2|?>>
-    <associate|auto-4|<tuple|1.3|?>>
-    <associate|auto-5|<tuple|1.4|?>>
-    <associate|auto-6|<tuple|2|?>>
-    <associate|auto-7|<tuple|2.1|?>>
-    <associate|auto-8|<tuple|2.2|?>>
-    <associate|auto-9|<tuple|3|?>>
+    <associate|auto-10|<tuple|3.1|3>>
+    <associate|auto-11|<tuple|3.2|3>>
+    <associate|auto-12|<tuple|1|4>>
+    <associate|auto-13|<tuple|4|4>>
+    <associate|auto-2|<tuple|1.1|1>>
+    <associate|auto-3|<tuple|1.2|1>>
+    <associate|auto-4|<tuple|1.3|1>>
+    <associate|auto-5|<tuple|1.4|2>>
+    <associate|auto-6|<tuple|2|2>>
+    <associate|auto-7|<tuple|2.1|2>>
+    <associate|auto-8|<tuple|2.2|3>>
+    <associate|auto-9|<tuple|3|3>>
   </collection>
 </references>
 
@@ -417,12 +479,12 @@
       model <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
       <no-break><pageref|auto-10>>
 
-      <with|par-left|<quote|1.5fn>|3.2<space|2spc>Adding the last unvisited
-      street <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
+      <with|par-left|<quote|1.5fn>|3.2<space|2spc>Chang objective: minimize
+      time used <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
       <no-break><pageref|auto-11>>
 
       <vspace*|1fn><with|font-series|<quote|bold>|math-font-series|<quote|bold>|4<space|2spc>File
-      details> <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
+      descriptions> <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
       <no-break><pageref|auto-13><vspace|0.5fn>
     </associate>
   </collection>

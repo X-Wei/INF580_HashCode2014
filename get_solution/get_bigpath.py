@@ -1,7 +1,7 @@
 import ast
 
-input_filename = 'solution/y_8T_time-reg2.txt'
-output_filename = 'path_8T_time-reg2.txt'
+input_filename = 'data/y_min_time.txt'
+output_filename = 'bigpath_min_time.txt'
 
 E={} # oriented edges, with count: (u,v) --> k
 somme = 0
@@ -20,7 +20,7 @@ visited = set()
 
 
 def find_path(E,start):
-    #~ print 'finding path...'
+    print 'finding path...',
     v = start
     path = [v]
     while len(E)>0:
@@ -46,9 +46,7 @@ path2 = []
 while True:
     sub_path = find_path(E,start)
     path = path1 + sub_path +path2
-    #~ print path
-    #~ print 'path length = ', len(path)
-    if len(E)==0: # if we've gone through all edges
+    if len(E)==0: # if we've gone through all edges --> finish
         break
     else:
         start = None
@@ -57,7 +55,7 @@ while True:
                 start = key[0]
                 break
         if start == None:
-            print 'Error!'
+            print 'Error! Not only one connected components!'
             break
         print '\r re-starting at vertex', start, '...',
         idx = path.index(start)

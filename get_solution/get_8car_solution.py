@@ -1,9 +1,9 @@
 import cPickle as pk
 
-solution_filename = 'path_8T_time-reg2.txt'
-sub_filename = 'sub_8T_time-reg2_add_lastedge.txt'
+bigpath_filename = 'bigpath_min_time.txt'
+sub_filename = 'sub_min_time.txt'
 
-fi = open('solution/paris_54000.txt','r')
+fi = open('data/paris_54000.txt','r')
 N, M, T, N_car, start = map(int, fi.readline().split() ) # N= nb vertices, M = nb streets
 
 def readtab(fi, ty): return tuple(map(ty, fi.readline().split()))
@@ -82,14 +82,14 @@ def get_shortest_path(dst):
 
 ######################################################################### 
 print '3. reading the solution with 1 car and 8T...'
-fi = open(solution_filename, 'r')
+fi = open(bigpath_filename, 'r')
 fi.readline() # 1
 fi.readline() # 30917
 fi.readline() # 4516
 
 def append_path(t_left, partial_path):
     '''
-    given the time left `t_left` and the partial path, add path until time up by reading from the `fi` (i.e. following the solution by NEOS)
+    given the time left `t_left` and the partial path, add path until time up by reading from the `fi` (i.e. following the "big path")
     returns the next vertex to go (for next car) and the time left
     '''
     current = partial_path[-1] if len(partial_path)>0 else start
@@ -120,7 +120,7 @@ for i in range(N_car):
     if start_i != start: 
         path.append(next_i)#remember: the edge (current,nxt) is not yet done in last call for `append_path` !!!
     t -= dist[start_i] # don't forget dist[v] is the shortest(time) to get from google to v ! 
-    print 'time left for doing the solution is: %d, ' % t, 
+    print 'time left for following the big path is: %d, ' % t, 
     # 2. take the path provided by "sub_8T.txt"
     next_i, t = append_path(t, path) # `next_i` is the next vertex that the next car should visit
     start_i = path[-1] # next car will start by the end of  last path
@@ -132,7 +132,7 @@ path_to_last_edge = pk.load(open('path_to_lastedge.dat','r'))
 all_paths[-1].extend(path_to_last_edge[1:])
 
 ######################################################################## 
-print '4. outputting to submission file...',
+print '4. outputting to submission file...'
 with open(sub_filename, 'w') as fo:
     fo.write('%d\n' % N_car)
     for i in range(N_car):
@@ -140,4 +140,4 @@ with open(sub_filename, 'w') as fo:
         fo.write('%d\n' % len(path))
         for v in path:
             fo.write(str(v)+'\n')
-print 'done!!!!!'
+print 'ALL DONE!!!!!'
